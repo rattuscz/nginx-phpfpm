@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Basic packages + cleanup
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	curl \
+	locales \
 	nginx \
 	php5-cli \
 	php5-common \
@@ -28,16 +29,18 @@ RUN echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
 	chmod +x /usr/sbin/policy-rc.d
 
 # Ensure UTF-8
-RUN locale-gen en_US.UTF-8
-ENV LANG       en_US.UTF-8
-ENV LC_ALL     en_US.UTF-8
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
 
 # needed only for mysql
 #RUN php5enmod mcrypt
 
 # download and install composer
-RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php && \
-	/bin/mv composer.phar /usr/local/bin/composer
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
+	rm -rf /var/lib/apt/lists/* && \
+	/usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php && \
+	/bin/mv composer.phar /usr/local/bin/composer && \
+	apt-get purge -y --auto-remove ca-certificates
 
 # Copy nginx and supervisor configuration
 COPY ./config/nginx/nginx.conf /etc/nginx/nginx.conf
