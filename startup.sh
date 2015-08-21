@@ -12,4 +12,4 @@ do
 	echo "env[${var}] = ${!var}" >> $ENV_CONF
 done
 
-exit 0;
+exit 0

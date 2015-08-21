@@ -62,6 +62,7 @@ RUN chmod +x /opt/startup.sh
 # PHP
 COPY ./config/php/www.conf /etc/php5/fpm/pool.d/www.conf
 COPY ./config/php/php.ini /etc/php5/fpm/php.ini
+RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf
 
 RUN mkdir /var/html
 
