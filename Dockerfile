@@ -39,7 +39,7 @@ ENV LANG en_US.utf8
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
 	rm -rf /var/lib/apt/lists/* && \
 	/usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php -- --install-dir=/usr/local/bin --filename=composer && \
-	apt-get purge -y --auto-remove ca-certificates
+	apt-get purge -y 
 
 # Copy nginx and supervisor configuration
 COPY ./config/nginx/nginx.conf /etc/nginx/nginx.conf
