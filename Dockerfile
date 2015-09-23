@@ -53,11 +53,6 @@ RUN sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
 	sed -i 's/upload_max_filesize = .*/upload_max_filesize = 500M/' /etc/php5/fpm/php.ini && \
 	sed -i 's/post_max_size = .*/post_max_size = 500M/' /etc/php5/fpm/php.ini
 
-# Startup script
-# This startup script wll configure nginx
-COPY ./startup.sh /opt/startup.sh
-RUN chmod +x /opt/startup.sh
-
 # PHP
 COPY ./config/php/www.conf /etc/php5/fpm/pool.d/www.conf
 COPY ./config/php/php.ini /etc/php5/fpm/php.ini
