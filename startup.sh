@@ -6,7 +6,7 @@ echo "Configuring Nginx and PHP5-FPM with environment variables"
 
 # Update php5-fpm with access to Docker environment variables
 echo '[www]' > $ENV_CONF
-for var in $(env | awk -F= '{print $1}')
+for var in $(env | awk -F= '{print $1}' | grep -vE "^_$")
 do
 	echo "Adding variable {$var}"
 	echo "env[${var}] = ${!var}" >> $ENV_CONF
