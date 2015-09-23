@@ -38,8 +38,7 @@ ENV LANG en_US.utf8
 # download and install composer
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
 	rm -rf /var/lib/apt/lists/* && \
-	/usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php && \
-	/bin/mv composer.phar /usr/local/bin/composer && \
+	/usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php -- --install-dir=/usr/local/bin --filename=composer && \
 	apt-get purge -y --auto-remove ca-certificates
 
 # Copy nginx and supervisor configuration
