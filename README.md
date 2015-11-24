@@ -10,6 +10,9 @@ $ sudo docker build -t yourname/nginx-php .
 
 Nginx will look for files in /var/html/www so you need to map your application to that directory.
 
+SSL will look for  ssl certificate /data/web_ssl.crt and corresponding private key /data/web_ssl.rsa so you need to map /data directory with those
+SSL also uses /data/dh.pem for Diffie-Hellman parameters - you can generate with ```openssl dhparam -out dh.pem 4096```
+
 ```
 sudo docker run -d -p 8000:80 --volumes-from APPDATA -v /home/me/myphpapp:/var/html/www --name lemp yourname/nginx-php
 ```

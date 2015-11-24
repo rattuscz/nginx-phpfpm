@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 # Copy nginx and supervisor configuration
 COPY ./config/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/nginx/default /etc/nginx/sites-available/default
+COPY ./config/nginx/nette.conf /etc/nginx/nette.conf
 COPY ./config/nginx/realip.conf /etc/nginx/conf.d/realip.conf
 COPY ./config/supervisor.conf /etc/supervisor/conf.d/supervisord-nginx.conf
 
@@ -64,6 +65,7 @@ RUN usermod -u 1000 www-data && \
 	chown -R www-data:www-data /var/html
 
 EXPOSE 80
+EXPOSE 443
 
 WORKDIR /var/html
 
