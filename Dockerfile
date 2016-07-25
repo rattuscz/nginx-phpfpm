@@ -50,7 +50,7 @@ COPY ./config/supervisor.conf /etc/supervisor/conf.d/supervisord-nginx.conf
 COPY ./scripts/createSSLFiles.sh /opt/createSSLFiles.sh
 
 # PHP-FPM config
-RUN mkdir -d /etc/nginx/ssl && \
+RUN mkdir -p /etc/nginx/ssl && \
 	sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
 	sed -i 's/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 0/' /etc/php5/fpm/php.ini && \
 	sed -i 's/upload_max_filesize = .*/upload_max_filesize = 500M/' /etc/php5/fpm/php.ini && \
