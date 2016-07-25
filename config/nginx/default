@@ -24,6 +24,10 @@ server {
 	add_header X-Frame-Options SAMEORIGIN;
 
 	ssl                  on;
-	ssl_certificate      /data/web_ssl.crt;
-	ssl_certificate_key  /data/web_ssl.rsa;
+	ssl_certificate      /etc/nginx/ssl/ssl-cert.pem;
+	ssl_certificate_key  /etc/nginx/ssl/ssl-cert-pkey.pem;
+	ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+	ssl_verify_client optional;
+	ssl_trusted_certificate /etc/nginx/ssl/ssl-client-ca-cert.pem;
+
 }

@@ -47,9 +47,11 @@ COPY ./config/nginx/default /etc/nginx/sites-available/default
 COPY ./config/nginx/nette.conf /etc/nginx/nette.conf
 COPY ./config/nginx/realip.conf /etc/nginx/conf.d/realip.conf
 COPY ./config/supervisor.conf /etc/supervisor/conf.d/supervisord-nginx.conf
+COPY ./scripts/createSSLFiles.sh /opt/createSSLFiles.sh
 
-# PHP-FPM config 
-RUN sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
+# PHP-FPM config
+RUN mkdir -d /etc/nginx/ssl && \
+	sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
 	sed -i 's/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 0/' /etc/php5/fpm/php.ini && \
 	sed -i 's/upload_max_filesize = .*/upload_max_filesize = 500M/' /etc/php5/fpm/php.ini && \
 	sed -i 's/post_max_size = .*/post_max_size = 500M/' /etc/php5/fpm/php.ini
@@ -59,9 +61,8 @@ COPY ./config/php/www.conf /etc/php5/fpm/pool.d/www.conf
 COPY ./config/php/php.ini /etc/php5/fpm/php.ini
 RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf
 
-RUN mkdir /var/html
-
-RUN usermod -u 1000 www-data && \
+RUN mkdir /var/html && \
+	usermod -u 1000 www-data && \
 	chown -R www-data:www-data /var/html
 
 EXPOSE 80
