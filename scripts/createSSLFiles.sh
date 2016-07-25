@@ -24,6 +24,6 @@ echo $SSL_CLIENT_CA_CERT |  sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-client-ca-cert
 
 echo $SSL_CERT | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert.pem
 echo $SSL_KEY  | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert-pkey.pem
-echo $SSL_DH   | sed 's/\\n/\n/g' > /etc/nginx/ssl/dhparam.pem;
+echo $SSL_DH   | sed 's/\\n/\n/g' > /etc/nginx/ssl/dhparam.pem
 
 exit 0
