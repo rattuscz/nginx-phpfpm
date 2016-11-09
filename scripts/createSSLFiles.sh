@@ -23,12 +23,12 @@ fi
 if [ -z "$SSL_IGNORE_CA_CERT" ]; then
 	# create client ssl cert file, ensure config is not commented
 	echo $SSL_CLIENT_CA_CERT |  sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-client-ca-cert.pem
-	sed -i 's/#*ssl_verify_client/ssl_verify_client/' /etc/nginx/sites-available/default
-	sed -i 's/#*ssl_client_certificate/ssl_client_certificate/' /etc/nginx/sites-available/default
+	sed -i 's/#*ssl_verify_client/ssl_verify_client/' /etc/nginx/conf.d/default.conf
+	sed -i 's/#*ssl_client_certificate/ssl_client_certificate/' /etc/nginx/conf.d/default.conf
 else
 	# comment out client ssl parts
-	sed -i 's/#*ssl_verify_client/#ssl_verify_client/' /etc/nginx/sites-available/default
-	sed -i 's/#*ssl_client_certificate/#ssl_client_certificate/' /etc/nginx/sites-available/default
+	sed -i 's/#*ssl_verify_client/#ssl_verify_client/' /etc/nginx/conf.d/default.conf
+	sed -i 's/#*ssl_client_certificate/#ssl_client_certificate/' /etc/nginx/conf.d/default.conf
 fi
 
 echo $SSL_CERT | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert.pem
