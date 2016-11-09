@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -z "$SSL_CLIENT_CA_CERT" ]; then
+if [ -z "$SSL_IGNORE_CA_CERT" ] && [ -z "$SSL_CLIENT_CA_CERT" ]; then
     echo "ENV variable SSL_CLIENT_CA_CERT is missing, set with value from \"awk 1 ORS='\\n' ca-public-cert.pem\"" >&2
     exit 3
 fi
@@ -20,7 +20,16 @@ if [ -z "$SSL_DH" ]; then
     exit 6
 fi
 
-echo $SSL_CLIENT_CA_CERT |  sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-client-ca-cert.pem
+if [ -z "$SSL_IGNORE_CA_CERT" ]; then
+	# create client ssl cert file, ensure config is not commented
+	echo $SSL_CLIENT_CA_CERT |  sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-client-ca-cert.pem
+	sed -i 's/#*ssl_verify_client/ssl_verify_client/' /etc/nginx/sites-available/default
+	sed -i 's/#*ssl_client_certificate/ssl_client_certificate/' /etc/nginx/sites-available/default
+else
+	# comment out client ssl parts
+	sed -i 's/#*ssl_verify_client/#ssl_verify_client/' /etc/nginx/sites-available/default
+	sed -i 's/#*ssl_client_certificate/#ssl_client_certificate/' /etc/nginx/sites-available/default
+fi
 
 echo $SSL_CERT | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert.pem
 echo $SSL_KEY  | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert-pkey.pem

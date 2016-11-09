@@ -1,6 +1,5 @@
 server {
 	listen 80 default_server;
-	#listen 443;
 
 	server_name _;
 	server_tokens off;
@@ -12,7 +11,7 @@ server {
 }
 
 server {
-	listen 443;
+	listen 443 ssl http2;
 
 	server_name _; #ssl_hostname#
 	server_tokens off;
@@ -23,7 +22,6 @@ server {
 	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
 	add_header X-Frame-Options SAMEORIGIN;
 
-	ssl                  on;
 	ssl_certificate      /etc/nginx/ssl/ssl-cert.pem;
 	ssl_certificate_key  /etc/nginx/ssl/ssl-cert-pkey.pem;
 	ssl_dhparam /etc/nginx/ssl/dhparam.pem;
