@@ -55,15 +55,16 @@ COPY ./scripts/createSSLFiles.sh /opt/createSSLFiles.sh
 
 # PHP-FPM config
 RUN mkdir -p /etc/nginx/ssl && \
-	sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
-	sed -i 's/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 0/' /etc/php5/fpm/php.ini && \
-	sed -i 's/upload_max_filesize = .*/upload_max_filesize = 500M/' /etc/php5/fpm/php.ini && \
-	sed -i 's/post_max_size = .*/post_max_size = 500M/' /etc/php5/fpm/php.ini
+	rm -f /etc/nginx/conf.d/default && \
+	sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf
+#	sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
+#	sed -i 's/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 0/' /etc/php5/fpm/php.ini && \
+#	sed -i 's/upload_max_filesize = .*/upload_max_filesize = 500M/' /etc/php5/fpm/php.ini && \
+#	sed -i 's/post_max_size = .*/post_max_size = 500M/' /etc/php5/fpm/php.ini && \
 
 # PHP
 COPY ./config/php/www.conf /etc/php5/fpm/pool.d/www.conf
 COPY ./config/php/php.ini /etc/php5/fpm/php.ini
-RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf
 
 RUN mkdir /var/html && \
 	usermod -u 1000 www-data && \
