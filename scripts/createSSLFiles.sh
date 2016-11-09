@@ -1,17 +1,17 @@
 #!/bin/sh
 
 if [ -z "$SSL_IGNORE_CA_CERT" ] && [ -z "$SSL_CLIENT_CA_CERT" ]; then
-    echo "ENV variable SSL_CLIENT_CA_CERT is missing, set with value from \"awk 1 ORS='\\n' ca-public-cert.pem\"" >&2
+    echo "ENV variable SSL_CLIENT_CA_CERT is missing, set with value from \"awk 1 ORS='\\\n' ca-public-cert.pem\"" >&2
     exit 3
 fi
 
 if [ -z "$SSL_CERT" ]; then
-    echo "ENV variable SSL_CERT is missing, set with with value from \"awk 1 ORS='\\n' web-ssl-cert.pem\"" >&2
+    echo "ENV variable SSL_CERT is missing, set with with value from \"awk 1 ORS='\\\n' web-ssl-cert.pem\"" >&2
     exit 4
 fi
 
 if [ -z "$SSL_KEY" ]; then
-    echo "ENV variable SSL_KEY is missing, set with with value from \"awk 1 ORS='\\n' web-ssl-pkey.pem\"" >&2
+    echo "ENV variable SSL_KEY is missing, set with with value from \"awk 1 ORS='\\\n' web-ssl-pkey.pem\"" >&2
     exit 5
 fi
 

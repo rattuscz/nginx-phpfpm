@@ -47,7 +47,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 
 # Copy nginx and supervisor configuration
 COPY ./config/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./config/nginx/default /etc/nginx/sites-available/default
+COPY ./config/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./config/nginx/nette.conf /etc/nginx/nette.conf
 COPY ./config/nginx/realip.conf /etc/nginx/conf.d/realip.conf
 COPY ./config/supervisor.conf /etc/supervisor/conf.d/supervisord-nginx.conf
@@ -55,7 +55,6 @@ COPY ./scripts/createSSLFiles.sh /opt/createSSLFiles.sh
 
 # PHP-FPM config
 RUN mkdir -p /etc/nginx/ssl && \
-	rm -f /etc/nginx/conf.d/default && \
 	sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf
 #	sed -i 's/memory_limit = .*/memory_limit = 256M/' /etc/php5/fpm/php.ini && \
 #	sed -i 's/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 0/' /etc/php5/fpm/php.ini && \
