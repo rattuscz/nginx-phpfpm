@@ -33,6 +33,10 @@ if [ -z "$SSL_USE_LETSENCRYPT" ]; then
         exit 105
     fi
 
+    # enable ssl
+    sed -i 's/#*ssl_certificate/ssl_certificate/' /etc/nginx/conf.d/default.conf
+    sed -i 's/listen 443; #ssl/listen 443 ssl/' /etc/nginx/conf.d/default.conf
+
     echo $SSL_CERT | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert.pem
     echo $SSL_KEY  | sed 's/\\n/\n/g' > /etc/nginx/ssl/ssl-cert-pkey.pem
     sed -i 's/ssl_certificate\s[^;]*;/ssl_certificate      \/etc\/nginx\/ssl\/ssl-cert.pem;/' /etc/nginx/conf.d/default.conf
@@ -61,7 +65,7 @@ else
         /usr/sbin/nginx -s reload
 
         # request cert
-        certbot certonly -n
+        certbot certonly -n -q
 
         # enable ssl
         sed -i 's/#*ssl_certificate/ssl_certificate/' /etc/nginx/conf.d/default.conf
