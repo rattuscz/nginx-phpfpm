@@ -1,5 +1,5 @@
 # nginx-php5
-Includes nginx and php5 running with supervisor
+Includes nginx, phpfpm, php5, cron and certbot ([Lets encrypt](https://certbot.eff.org/#debianjessie-nginx)) running with supervisor
 
 ## To build
 
@@ -10,11 +10,18 @@ $ sudo docker build -t yourname/nginx-php .
 
 Nginx will look for files in /var/html/www so you need to map your application to that directory.
 
-SSL will look for  ssl certificate passed in ENV variables, you need to provide those:
+Let's encrypt can be used for SSL certificates using ENVs. Certificates will be stored on /data/letsencrypt
+- **SSL_USE_LETSENCRYPT** - Nonempty value will trigger using letsencrypt certbot for certificates retrieval
+- **LE_EMAIL** - Lets encrypt registration email
+- **LE_DOMAIN** - Primary domain ( used in nginx config to locate certificate )
+- **LE_DOMAINS** - **Optional**, Lets encrypt domain list for certificate, comma separated. If not provided will be equal to LE_DOMAIN
 
+If not using Lets encrypt, SSL requires ssl certificate passed in ENV variables, you need to provide those:
 - **SSL_CERT** - Server SSL certificate - you can generate this string from ```awk 1 ORS='\\n' web-ssl-cert.pem```
 - **SSL_KEY** - Server SSL certificate private key - can be obtained by running ```awk 1 ORS='\\n' web-ssl-pkey.pem```
 - **SSL_DH** - Diffie-Hellman parameters - you can generate file with ```openssl dhparam -out dh.pem 4096``` and use this value ```awk 1 ORS='\\n' dhparam.pem```
+
+For client authentication following ENV variables are used
 - **SSL_IGNORE_CA_CERT** - If not empty the client certification will not be required and will not be used by nginx
 - **SSL_CLIENT_CA_CERT** - CA public certificate for client certification validation
 
